@@ -1,7 +1,7 @@
 fastapi==0.115.0
 uvicorn==0.30.0
-torch==2.3.1
-torchvision==0.18.1
+torch==2.0.1
+torchvision==0.15.2
 diffusers==0.28.0
 transformers==4.46.0
 acccelerate==1.0.0
