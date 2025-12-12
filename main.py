@@ -25,10 +25,9 @@ pipe = None
 
 def load_model():
     global pipe
-    from diffusers import AutoPipelineForText2Image
+    from diffusers import DiffusionPipeline
     if pipe is None:
-        pipe = AutoPipelineForText2Image.from_pretrained(
-            MODEL_ID,
+        pipe = DiffusionPipeline.from_pretrained(
             torch_dtype=torch.bfloat16,
             variant="fp16"
         )
