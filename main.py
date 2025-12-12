@@ -44,6 +44,7 @@ def image_to_base64(image: Image.Image) -> str:
 @app.on_event("startup")
 async def startup_event():
     pass
+@app.get("/health")
 async def health():
     return {"status": "online", "model": MODEL_ID}
 
