@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Form
+and also double check the healfrom fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import torch
@@ -147,4 +147,5 @@ async def image_to_image(
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
- vicorn.run(app, host="0.0.0.0", port=port, loop="auto")
+ uvicorn.run(app, host="0.0.0.0", port=port)
+t
