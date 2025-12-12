@@ -1,7 +1,7 @@
 fastapi==0.115.0
 uvicorn==0.30.0
-torch==2.4.1
-torchvision==0.19.1
+torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cpu
 diffusers==0.28.0
 transformers==4.46.0
 acccelerate==1.0.0
