@@ -147,4 +147,4 @@ async def image_to_image(
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port, timeout_keep_alive=120)
+ vicorn.run(app, host="0.0.0.0", port=port, loop="auto")
