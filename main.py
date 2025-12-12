@@ -28,6 +28,7 @@ def load_model():
     from diffusers import DiffusionPipeline
     if pipe is None:
         pipe = DiffusionPipeline.from_pretrained(
+                        MODEL_ID,
             torch_dtype=torch.bfloat16,
             variant="fp16"
         )
