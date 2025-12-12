@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import torch
-from diffusers import AutoPipelineForText2Image
+# Lazy import diffusers - imported in load_model() to avoid import errors
 from PIL import Image
 import base64
 import io
@@ -25,6 +25,7 @@ pipe = None
 
 def load_model():
     global pipe
+        from diffusers import AutoPipelineForText2Image
     if pipe is None:
         pipe = AutoPipelineForText2Image.from_pretrained(
             MODEL_ID,
