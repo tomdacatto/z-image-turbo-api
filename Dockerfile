@@ -1,9 +1,9 @@
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
 # Install torch with CPU support first using pip with index URL
-RUN pip install --no-cache-dir -i https://download.pytorch.org/whl/cpu torch==2.3.1 torchvision==0.18.1
+RUN pip install --no-cache-dir -i https://download.pytorch.org/whl/cpu torch==2.0.1 torchvision==0.15.2
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
