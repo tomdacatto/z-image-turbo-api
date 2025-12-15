@@ -1,8 +1,8 @@
-from fastapi import FastAPI, StaticFiles
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import uvicorn
+import unicorn
 import os
-
 app = FastAPI(title="Z-Image-Turbo API", version="1.0.0")
 
 HTML_CONTENT = """
