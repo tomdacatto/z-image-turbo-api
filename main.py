@@ -335,8 +335,9 @@ async def api_health():
     return {"status": "healthy", "service": "z-image-turbo"}
 
 if __name__ == "__main__":
+
     print("[DEBUG] Starting application...")
-        port = int(os.getenv("PORT", 8000))
-        print(f"[DEBUG] Using PORT: {port}")
-        print(f"[DEBUG] Starting uvicorn on 0.0.0.0{:port}")
-        uvicorn.run(app, host="0.0.0.0", port=port)
+    port = int(os.getenv("PORT", 8000))
+    print(f"[DEBUG] Using PORT: {port}")
+    print(f"[DEBUG] Starting uvicorn on 0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
