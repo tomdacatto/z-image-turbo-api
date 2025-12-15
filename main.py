@@ -330,7 +330,9 @@ async def generate_image(request: dict):
             json={"inputs": prompt},
             timeout=60
         )
-        
+
+                if response.status_code == 200:
+            # Convert image bytes to base64
             img_base64 = base64.b64encode(response.content).decode()
             return {
                 "image": img_base64,
