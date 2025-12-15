@@ -331,11 +331,11 @@ async def health():
 
 @app.get("/api/health")
 async def api_health():
-    print("[DEBUG] /health endpoint called - returning status online"):
+    print("[DEBUG] /health endpoint called - returning status online")
     return {"status": "healthy", "service": "z-image-turbo"}
 
 if __name__ == "__main__"::
-    print("[DEBUG] Starting application...")
+print("[DEBUG] Starting application...")
     port = int(os.getenv("PORT", 8000))
     print(f"[DEBUG] Using PORT: {port}")
     print(f"[DEBUG] Starting uvicorn on 0.0.0.0:{port}")
