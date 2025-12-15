@@ -5,6 +5,7 @@ import os
 import base64
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
+import requests
 
 app = FastAPI(title="Z-Image-Turbo API", version="1.0.0")
 
@@ -319,7 +320,27 @@ async def generate_image(request: dict):
     if not prompt:
         return {"error": "Prompt is required"}
     
-        # Create a demo image with gradient background
+    # Use Hugging Face Inference API (free, no auth required)
+    try:
+        API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell"
+        
+        response = requests.post(
+            API_URL,
+            headers={"Content-Type": "application/json"},
+            json={"inputs": prompt},
+            timeout=60
+        )
+        
+            img_base64 = base64.b64encode(response.content).decode()
+            return {
+                "image": img_base64,
+                "prompt": prompt,
+                "message": "Image generated successfully with FLUX.1-schnell"
+            }
+        else:
+            return {"error": f"API error: {response.status_code} - {response.text}"}
+    except Exception as e:
+        return {"error": f"Failed to generate image: {str(e)}"}        # Create a demo image with gradient background
     width, height = 512, 512
     img = Image.new('RGB', (width, height), color=(102, 126, 234))
     draw = ImageDraw.Draw(img)
