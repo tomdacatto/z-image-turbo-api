@@ -3,6 +3,8 @@ from fastapi.responses import HTMLResponse
 import uvicorn
 import os
 import base64
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
 
 app = FastAPI(title="Z-Image-Turbo API", version="1.0.0")
 
@@ -317,14 +319,57 @@ async def generate_image(request: dict):
     if not prompt:
         return {"error": "Prompt is required"}
     
-    # Placeholder - returns a simple demo response
-    # In production, this would use actual AI model
+        # Create a demo image with gradient background
+    width, height = 512, 512
+    img = Image.new('RGB', (width, height), color=(102, 126, 234))
+    draw = ImageDraw.Draw(img)
+    
+    # Draw gradient effect
+    for y in range(height):
+        r = int(102 + (118 - 102) * y / height)
+        g = int(126 + (75 - 126) * y / height) 
+        b = int(234 + (162 - 234) * y / height)
+        draw.line([(0, y), (width, y)], fill=(r, g, b))
+    
+    # Add text to the image
+    from PIL import ImageFont
+    try:
+        # Try to use a system font
+        font_large = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 40)
+        font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
+    except:
+        # Fallback to default font
+        font_large = ImageFont.load_default()
+        font_small = ImageFont.load_default()
+    
+    # Draw demo text
+    text1 = "Z-Image Turbo"
+    text2 = f"Prompt: {prompt[:30]}..."
+    text3 = "Demo Image"
+    
+    # Calculate text positions for centering
+    bbox1 = draw.textbbox((0, 0), text1, font=font_large)
+    bbox2 = draw.textbbox((0, 0), text2, font=font_small)
+    bbox3 = draw.textbbox((0, 0), text3, font=font_small)
+    
+    w1 = bbox1[2] - bbox1[0]
+    w2 = bbox2[2] - bbox2[0]
+    w3 = bbox3[2] - bbox3[0]
+    
+    draw.text(((width-w1)/2, 200), text1, fill=(255, 255, 255), font=font_large)
+    draw.text(((width-w2)/2, 260), text2, fill=(255, 255, 255), font=font_small)
+    draw.text(((width-w3)/2, 300), text3, fill=(200, 200, 255), font=font_small)
+    
+    # Convert to base64
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_base64 = base64.b64encode(buffered.getvalue()).decode()
+    
     return {
-        "image": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+        "image": img_base64,
         "prompt": prompt,
-        "message": "Demo image (placeholder)"
+        "message": "Demo image generated successfully"
     }
-
 @app.get("/health")
 async def health():
     return {"status": "online", "message": "API is running"}
